@@ -83,12 +83,11 @@ func writeIncident(w http.ResponseWriter, r *http.Request) {
 func deleteRows(w http.ResponseWriter, r *http.Request) {
 
 	var response JsonResponse
-	params := mux.Vars(r)
+	id := r.FormValue("id")
 	db := setupDB()
-	id := params["id"]
 
 	if id == "" {
-		response = JsonResponse{Type: "Error", Message: "No such incident"}
+		response = JsonResponse{Type: "Error", Message: "The ID parameter is empty"}
 	} else {
 		fmt.Println("Deleting incident from DB")
 		_, err := db.Query("DELETE FROM incidents WHERE id=?", id)
